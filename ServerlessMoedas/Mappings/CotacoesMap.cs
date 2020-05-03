@@ -7,11 +7,16 @@ namespace ServerlessMoedas.Mappings
     {
         public CotacoesMap()
         {
-            Id(c => c.Sigla);
-            Map(c => c.NomeMoeda);
-            Map(c => c.UltimaCotacao);
-            Map(c => c.Valor);
             Table("dbo.Cotacoes");
+
+            Id(c => c.Sigla).GeneratedBy.Assigned()
+                .Index("PK_Cotacoes").CustomSqlType("char(3)");
+            Map(c => c.Nome, "NomeMoeda").Not.Nullable()
+                .CustomSqlType("varchar(30)");
+            Map(c => c.DataUltimaCotacao, "UltimaCotacao")
+                .Not.Nullable().CustomSqlType("datetime");
+            Map(c => c.Valor).Not.Nullable()
+                .CustomSqlType("numeric(18,4)");
         }
     }
 }
